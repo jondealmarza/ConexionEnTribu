@@ -182,7 +182,7 @@
   .turn__step p{font-size:15px;color:var(--muted);margin-top:2px}
 
   /* Recorrido */
-  .board{margin:30px auto 0;max-width:330px}
+  .board{margin:30px auto 0;max-width:330px;aspect-ratio:230/277;border-radius:14px}
   .board-note{text-align:center;margin-top:22px;font-weight:700;color:var(--ink);font-size:15px}
   .board-note em{display:block;font-style:normal;font-family:var(--serif);color:var(--coral);font-size:19px;font-weight:600;margin-top:4px}
 
@@ -204,17 +204,16 @@
   .door--blue h3{color:var(--blue)}
   .door--coral h3{color:var(--coral)}
   .door--sage h3{color:var(--sage)}
-  .door svg{margin:12px auto 10px;height:58px;width:auto}
+  .door svg,.door img{margin:12px auto 10px;height:58px;width:auto}
   .door p{font-size:13.5px;line-height:1.45;color:var(--muted)}
   .doors-foot{margin-top:18px;text-align:center;font-size:14px;color:var(--muted)}
 
   /* Tesoro */
   .gems{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:30px 0 26px}
-  .gems svg{height:74px;width:auto}
-  .gems svg:nth-child(2){height:104px}
+  .gems img{height:104px;width:auto}
   .treasure p{font-size:16px}
   .treasure .accent-line{margin-top:8px}
-  .coin{margin:30px auto 0;width:150px}
+  .coin{margin:30px auto 0;width:150px;aspect-ratio:134/130}
 
   /* Dos espacios */
   .space{
@@ -273,7 +272,7 @@
 
   /* Cierre */
   .closing{text-align:center;padding-bottom:calc(120px + env(safe-area-inset-bottom))}
-  .closing svg.emblem{height:128px;width:auto;margin:0 auto 26px}
+  .closing .hero__emblem{height:128px;width:auto;margin:0 auto 26px}
   .closing h2{font-size:clamp(27px,7.8vw,32px)}
   .closing .lede{max-width:28ch;margin-left:auto;margin-right:auto}
   .closing .stores{margin-top:26px}
@@ -320,6 +319,30 @@
   }
 </style>
 </head>
+<!-- Google Analytics (GA4) -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-5SV1FZQ8RK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5SV1FZQ8RK');
+</script>
+<script>
+(function(){
+  var p = new URLSearchParams(location.search);
+  ['utm_source','utm_campaign','utm_medium'].forEach(function(k){
+    if(p.get(k)) sessionStorage.setItem(k, p.get(k));
+  });
+})();
+function trackClick(name){
+  if(!window.gtag) return;
+  gtag('event', name, {
+    utm_campaign: sessionStorage.getItem('utm_campaign') || 'directo',
+    utm_source: sessionStorage.getItem('utm_source') || 'directo'
+  });
+}
+</script> -->
 <body>
 
 <!-- ============ HÉROE ============ -->
@@ -332,17 +355,17 @@
     <img src="assets/logo1.png" width="101" height="140" alt="Carta con cuatro hojas de colores y un corazón dorado en el centro" fetchpriority="high" decoding="async">
   </div>
 
-  <p class="hero__claim">Escuchar, compartir y cuidar, por turnos.</p>
+  <p class="hero__claim">Un juego para escuchar, compartir y cuidar, por turnos.</p>
 
   <nav class="stores" aria-label="Descargar la aplicación">
-    <a class="store" href="#" data-store="ios">
+    <a class="store" href="proximamente.html" data-store="ios" onclick="trackClick('downloadiOS')">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
       <span class="store__txt">
         <span class="store__small">Descárgala gratis en</span>
         <span class="store__big">App Store</span>
       </span>
     </a>
-    <a class="store store--coral" href="#" data-store="android">
+    <a class="store store--coral" href="proximamente.html" data-store="android" onclick="trackClick('downloadAndroid')">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
       <span class="store__txt">
         <span class="store__small">Disponible gratis en</span>
@@ -362,58 +385,31 @@
     <p class="eyebrow gold">Cada turno abre una posibilidad</p>
     <h2>Tira el dado, avanza, descubre.</h2>
 
+    <img class="board" src="assets/tablero.png" width="230" height="277" alt="Recorrido circular de nueve casillas alrededor del dado" loading="lazy" decoding="async">
+
     <div class="turn">
       <div class="turn__step">
         <span class="turn__n" aria-hidden="true">1</span>
         <div>
           <h3>Tira el dado</h3>
-          <p>El peón avanza por el recorrido y se detiene en una casilla.</p>
+          <p>El <b>peón avanza</b> por el recorrido y se detiene en una casilla.</p>
         </div>
       </div>
       <div class="turn__step">
         <span class="turn__n" aria-hidden="true">2</span>
         <div>
           <h3>Toca la carta</h3>
-          <p>Una propuesta para agradecer, pedir, contar o reconocer lo que cuesta.</p>
+          <p>Cada carta es una propuesta para <b>agradecer, pedir, contar o reconocer</b> lo que cuesta.</p>
         </div>
       </div>
       <div class="turn__step">
         <span class="turn__n" aria-hidden="true">3</span>
         <div>
           <h3>Empieza la conversación</h3>
-          <p>O un chiste, un baile o una pelea de churros. También eso une.</p>
+          <p>O un chiste, un baile o una pelea de churros. Todas las dinámicas de este juego están ideadas para <b>fortalecer los vínculos</b>.</p>
         </div>
       </div>
     </div>
-
-    <svg class="board" viewBox="0 0 300 330" role="img" aria-label="Recorrido circular de nueve casillas alrededor del dado">
-      <path d="M40 120 L105 68 L185 82 L238 140 L214 206 L150 232 L92 214 L58 168 Z"
-            fill="none" stroke="#DFD0BC" stroke-width="5" stroke-linejoin="round"/>
-      <g fill="#FDF9F3" stroke-width="3.5">
-        <circle cx="40" cy="120" r="18" stroke="#8AA893"/>
-        <circle cx="105" cy="68" r="18" stroke="#C8685A"/>
-        <circle cx="185" cy="82" r="18" stroke="#8FB1CC"/>
-        <circle cx="238" cy="140" r="18" stroke="#D9A32E"/>
-        <circle cx="214" cy="206" r="18" stroke="#8AA893"/>
-        <circle cx="150" cy="232" r="18" stroke="#C8685A"/>
-        <circle cx="92" cy="214" r="18" stroke="#8FB1CC"/>
-        <circle cx="58" cy="168" r="18" stroke="#D9A32E"/>
-        <circle cx="150" cy="290" r="18" stroke="#8AA893"/>
-      </g>
-      <g font-family="Lato, sans-serif" font-size="15" font-weight="700" fill="#4A4741" text-anchor="middle" dominant-baseline="central">
-        <text x="40" y="120">1</text><text x="105" y="68">2</text><text x="185" y="82">3</text>
-        <text x="238" y="140">4</text><text x="214" y="206">5</text><text x="150" y="232">6</text>
-        <text x="92" y="214">7</text><text x="58" y="168">8</text><text x="150" y="290">9</text>
-      </g>
-      <g transform="translate(138,130)">
-        <rect width="46" height="46" rx="12" fill="#7E9B8C"/>
-        <g fill="#FDF8F0">
-          <circle cx="14" cy="14" r="3.6"/><circle cx="32" cy="14" r="3.6"/>
-          <circle cx="23" cy="23" r="3.6"/>
-          <circle cx="14" cy="32" r="3.6"/><circle cx="32" cy="32" r="3.6"/>
-        </g>
-      </g>
-    </svg>
 
     <p class="board-note">Sin ganadores individuales.<em>La meta es conectar.</em></p>
   </div>
@@ -422,114 +418,58 @@
 <!-- ============ CUATRO PUERTAS ============ -->
 <section>
   <div class="wrap">
-    <p class="eyebrow blue">Cuatro puertas para conectar</p>
-    <h2>Nombrar también nos acerca.</h2>
+    <p class="eyebrow blue">Cuatro categorías para conectar</p>
+    <h2>Porque expresarnos nos acerca</h2>
 
     <div class="doors">
       <article class="door door--gold">
         <h3>Agradezco</h3>
-        <svg viewBox="0 0 90 70" aria-hidden="true">
-          <path d="M8 40c10-10 20-14 30-12l14 3" fill="none" stroke="#B07B4E" stroke-width="7" stroke-linecap="round"/>
-          <path d="M82 46c-10 8-22 11-32 8l-12-5" fill="none" stroke="#E0A883" stroke-width="7" stroke-linecap="round"/>
-          <path d="M45 24c2-5 11-4 11 3 0 6-7 10-11 13-4-3-11-7-11-13 0-7 9-8 11-3z" fill="#D9A32E"/>
-          <path d="M60 18l4-7M68 26l7-3M54 14l1-8" stroke="#D9A32E" stroke-width="2.6" stroke-linecap="round"/>
-          <path d="M18 52c-6-2-9-7-8-12 6-1 11 2 13 7z" fill="#8AA893"/>
-        </svg>
+        <img src="assets/manos.png" width="119" height="69" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <p>Reconozco algo que recibo y digo qué despierta en mí.</p>
       </article>
 
       <article class="door door--blue">
         <h3>Necesito</h3>
-        <svg viewBox="0 0 90 70" aria-hidden="true">
-          <path d="M20 38h50c0 14-11 22-25 22S20 52 20 38z" fill="#F0E7D8" stroke="#C9B79A" stroke-width="2"/>
-          <path d="M18 40c-6 2-10 8-8 14M72 40c6 2 10 8 8 14" stroke="#B07B4E" stroke-width="7" stroke-linecap="round" fill="none"/>
-          <path d="M45 10c3 5 6 8 6 12a6 6 0 0 1-12 0c0-4 3-7 6-12z" fill="#8FB1CC"/>
-          <path d="M60 16c1-4 7-4 7 2 0 5-5 8-7 10-2-2-7-5-7-10 0-6 6-6 7-2z" fill="#C8685A"/>
-          <path d="M30 14c-6 1-9 6-8 11 6 1 10-2 11-7z" fill="#8AA893"/>
-        </svg>
+        <img src="assets/cuenco.png" width="120" height="105" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <p>Expreso algo que necesito, sin exigirlo.</p>
       </article>
 
       <article class="door door--coral">
         <h3>Cuento</h3>
-        <svg viewBox="0 0 90 70" aria-hidden="true">
-          <path d="M6 24c8-6 14-4 16 4 2 8-4 14-14 12-3-1-4-3-2-5z" fill="#E8A68F"/>
-          <path d="M24 34c12-12 26 8 38-4" fill="none" stroke="#D9A32E" stroke-width="3.4" stroke-linecap="round"/>
-          <path d="M70 16c9 0 14 8 13 18-1 11-8 18-14 16-4-1-3-6 0-8 4-3 5-8 3-11-2-4-8-3-9-8-1-4 3-7 7-7z" fill="#E8A68F"/>
-          <circle cx="72" cy="36" r="4" fill="none" stroke="#C88A6E" stroke-width="2.4"/>
-          <path d="M36 28l2-5M50 34l2 5M44 24l1-5" stroke="#D9A32E" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M28 40c-5 2-8 6-7 10 5 1 9-2 10-6z" fill="#8AA893"/>
-        </svg>
+        <img src="assets/bocaOreja.png" width="125" height="63" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <p>Comparto una experiencia y las demás escuchan.</p>
       </article>
 
       <article class="door door--sage">
         <h3>Me cuesta</h3>
-        <svg viewBox="0 0 90 70" aria-hidden="true">
-          <path d="M30 60c8-10 14-22 14-32" fill="none" stroke="#D0705A" stroke-width="7" stroke-linecap="round"/>
-          <path d="M44 28c3-4 7-2 6 2M50 30c3-3 6 0 4 4" stroke="#D0705A" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <path d="M82 12c-8 4-16 8-22 14" fill="none" stroke="#E0A44F" stroke-width="7" stroke-linecap="round"/>
-          <path d="M58 26c-4 2-7 1-6-3M64 22c-4 1-6-1-4-4" stroke="#E0A44F" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <ellipse cx="46" cy="60" rx="26" ry="9" fill="#A9AEA8"/>
-          <ellipse cx="38" cy="53" rx="16" ry="7" fill="#C0C4BD"/>
-          <path d="M66 54c-4-6-1-12 5-12 1 6-1 10-5 12z" fill="#8AA893"/>
-          <path d="M32 26l-4-5M26 32l-6-2" stroke="#4A4741" stroke-width="2.4" stroke-linecap="round"/>
-        </svg>
+        <img src="assets/meCuesta.png" width="122" height="134" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <p>Nombro algo difícil y el grupo responde con respeto.</p>
       </article>
     </div>
 
-    <p class="doors-foot">Se puede decir «paso» en cualquier momento. Compartir siempre es una invitación.</p>
+    <p class="doors-foot">Se puede decir «paso» en cualquier momento. Compartir siempre es una invitación. Con gran variedad de cartas disponibles.</p>
   </div>
 </section>
 
 <!-- ============ TESORO ============ -->
-<section class="treasure">
+<section class="treasure band-cream">
   <div class="wrap" style="text-align:center">
     <p class="eyebrow gold">El tesoro es compartido</p>
-    <h2>Cada aportación cuenta.</h2>
+    <h2>Un objetivo común.</h2>
 
     <div class="gems">
-      <svg viewBox="0 0 70 84" aria-hidden="true">
-        <path d="M35 2 68 30 35 82 2 30Z" fill="#C25647"/>
-        <path d="M35 2 68 30H2Z" fill="#D9705F"/>
-        <path d="M22 30 35 82 48 30Z" fill="#A8443A" opacity=".65"/>
-        <path d="M35 2 22 30h26Z" fill="#E68A78"/>
-      </svg>
-      <svg viewBox="0 0 76 104" aria-hidden="true">
-        <path d="M38 2C16 26 6 46 6 62a32 32 0 0 0 64 0c0-16-10-36-32-60z" fill="#5E8F62"/>
-        <path d="M38 2C30 30 26 52 26 66c0 14 5 26 12 34 7-8 12-20 12-34 0-14-4-36-12-64z" fill="#87B685"/>
-        <path d="M38 2c-8 28-12 50-12 64h24C50 52 46 30 38 2z" fill="#B4D3A6" opacity=".85"/>
-      </svg>
-      <svg viewBox="0 0 70 84" aria-hidden="true">
-        <rect x="8" y="10" width="54" height="64" rx="10" fill="#8C6BA8"/>
-        <rect x="18" y="20" width="34" height="44" rx="6" fill="#A98AC2"/>
-        <path d="M18 42h34M35 20v44" stroke="#C9B0DC" stroke-width="2.6" opacity=".8"/>
-      </svg>
+      <img src="assets/gemas.png" width="307" height="147" alt="" aria-hidden="true" loading="lazy" decoding="async">
     </div>
 
     <p>Las gemas no premian a una persona.</p>
     <p class="accent-line">Construyen el tesoro de toda la tribu.</p>
 
-    <svg class="coin" viewBox="0 0 150 150" role="img" aria-label="Cuatro manos sosteniendo el doblón de conexión">
-      <circle cx="75" cy="75" r="26" fill="#D9A32E"/>
-      <circle cx="75" cy="75" r="20" fill="#E8BC55"/>
-      <path d="M75 66c3-6 13-5 13 4 0 7-9 12-13 16-4-4-13-9-13-16 0-9 10-10 13-4z" fill="#B8801C"/>
-      <g stroke-linecap="round" stroke-width="11" fill="none">
-        <path d="M30 30c10 8 18 14 24 18" stroke="#C8685A"/>
-        <path d="M120 30c-10 8-18 14-24 18" stroke="#8AA893"/>
-        <path d="M30 120c10-8 18-14 24-18" stroke="#D9A32E"/>
-        <path d="M120 120c-10-8-18-14-24-18" stroke="#8FB1CC"/>
-      </g>
-      <g stroke="#D9A32E" stroke-width="2.6" stroke-linecap="round">
-        <path d="M75 40v-8M110 75h8M75 110v8M40 75h-8"/>
-      </g>
-    </svg>
+    <img class="coin" src="assets/doblon.png" width="134" height="130" alt="Cuatro manos sosteniendo el doblón de conexión" loading="lazy" decoding="async">
   </div>
 </section>
 
 <!-- ============ LEMA ============ -->
-<section class="band">
+<!-- <section class="band">
   <div class="wrap">
     <p class="eyebrow">Antes de comenzar</p>
     <h2>Creamos nuestro lema.</h2>
@@ -542,10 +482,10 @@
       <button class="motto__btn" type="button" disabled>Guardar lema</button>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ============ DOS ESPACIOS ============ -->
-<section>
+<section >
   <div class="wrap">
     <p class="eyebrow">La misma esencia</p>
     <h2>Un juego. Dos espacios.</h2>
@@ -569,9 +509,9 @@
   </div>
 </section>
 <!-- ============ PREGUNTA ============ -->
-<section class="band">
+<section class="band-cream">
   <div class="wrap question">
-    <p class="eyebrow coral">Una pregunta para empezar</p>
+    <p class="eyebrow coral">En el colegio</p>
     <h2>Una clase comparte espacio.</h2>
     <h2 class="second">¿Pero se siente tribu?</h2>
 
@@ -587,32 +527,24 @@
   </div>
 </section>
 <!-- ============ CIERRE ============ -->
-<section class="closing band-cream">
+<section class="closing">
   <div class="wrap">
-    <svg class="emblem" viewBox="0 0 150 196" role="img" aria-label="Emblema de Conexión en tribu">
-      <rect x="2" y="2" width="146" height="192" rx="14" fill="#FDF8F0" stroke="#D2A02F" stroke-width="2.5"/>
-      <rect x="9" y="9" width="132" height="178" rx="9" fill="none" stroke="#EBD9B4" stroke-width="1.4"/>
-      <g transform="translate(75,98)">
-        <path d="M-6-8C-22-26-44-30-50-18c-6 12 8 28 26 24 10-2 16-8 18-14z" fill="#E08E7C"/>
-        <path d="M6-8C22-26 44-30 50-18c6 12-8 28-26 24-10-2-16-8-18-14z" fill="#8FB1CC"/>
-        <path d="M-6 8C-22 26-44 30-50 18c-6-12 8-28 26-24 10 2 16 8 18 14z" fill="#DFAE3F"/>
-        <path d="M6 8C22 26 44 30 50 18c6-12-8-28-26-24-10 2-16 8-18 14z" fill="#8AA893"/>
-        <path d="M0-7c3-5 11-4 11 3 0 6-7 10-11 13-4-3-11-7-11-13 0-7 8-8 11-3z" fill="#D9A32E"/>
-      </g>
-    </svg>
+  <div class="hero__emblem">
+    <img src="assets/logo1.png" width="101" height="140" alt="Carta con cuatro hojas de colores y un corazón dorado en el centro" fetchpriority="high" decoding="async">
+  </div>
 
-    <h2>Empieza hoy vuestra primera partida.</h2>
+    <h2>Empezad hoy vuestra primera partida.</h2>
     <p class="lede">Descarga la app y juega esta tarde: bastan quince minutos alrededor de la mesa.</p>
 
     <nav class="stores" aria-label="Descargar la aplicación">
-      <a class="store" href="#" data-store="ios">
+      <a class="store" href="proximamente.html" data-store="ios" onclick="trackClick('downloadiOS')">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
         <span class="store__txt">
           <span class="store__small">Descárgala en</span>
           <span class="store__big">App Store</span>
         </span>
       </a>
-      <a class="store store--coral" href="#" data-store="android">
+      <a class="store store--coral" href="proximamente.html" data-store="android" onclick="trackClick('downloadAndroid')">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
         <span class="store__txt">
           <span class="store__small">Disponible en</span>
@@ -629,11 +561,11 @@
 
 <!-- ============ BARRA FIJA ============ -->
 <div class="dock" id="dock" aria-label="Descargar la aplicación">
-  <a href="#" data-store="ios">
+  <a href="proximamente.html" data-store="ios" onclick="trackClick('downloadiOS')">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
     App Store
   </a>
-  <a href="#" class="alt" data-store="android">
+  <a href="proximamente.html" class="alt" data-store="android" onclick="trackClick('downloadAndroid')">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
     Google Play
   </a>
