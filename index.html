@@ -33,7 +33,7 @@
   }
 
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
   body{
     margin:0;
     background:var(--bg);
@@ -145,7 +145,10 @@
     font-size:12px;
     color:var(--sage);
     letter-spacing:.08em;
+    display:inline-block;
+    text-decoration:none;
   }
+  .scroll-cue:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
   .scroll-cue span{display:block;margin:6px auto 0;width:1px;height:18px;background:linear-gradient(var(--sage),transparent)}
 
   /* ---------- Secciones ---------- */
@@ -316,6 +319,7 @@
   }
   @media (prefers-reduced-motion:reduce){
     *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+    html{scroll-behavior:auto}
   }
 </style>
 </head>
@@ -376,11 +380,11 @@ function trackClick(name){
 
   <p class="hero__meta">Para el hogar y el aula · 2 a 6 jugadores · Desde 6 años</p>
 
-  <p class="scroll-cue">Así se juega</p>
+  <a class="scroll-cue" href="#turno">Así se juega</a>
 </header>
 
 <!-- ============ TURNO ============ -->
-<section class="band-cream">
+<section class="band-cream" id="turno">
   <div class="wrap">
     <p class="eyebrow gold">Cada turno abre una posibilidad</p>
     <h2>Tira el dado, avanza, descubre.</h2>
@@ -447,7 +451,7 @@ function trackClick(name){
       </article>
     </div>
 
-    <p class="doors-foot">Se puede decir «paso» en cualquier momento. Compartir siempre es una invitación. Con gran variedad de cartas disponibles.</p>
+    <p class="doors-foot">Con <b>gran variedad de cartas</b> disponibles. Se puede decir «paso» en cualquier momento. Compartir siempre es una invitación.</p>
   </div>
 </section>
 
