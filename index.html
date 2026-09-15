@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conexión en Tribu · Un juego cooperativo para el aula y el hogar</title>
+<meta name="description" content="Un juego cooperativo para escuchar, compartir y cuidar. Para familias y clases. Descárgalo en App Store y Google Play.">
+<meta name="theme-color" content="#F6EDE3">
+<link rel="preload" href="assets/logo1.png" as="image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,600&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6EDE3;
+    --bg-deep:#F0E4D7;
+    --card:#FDF9F3;
+    --ink:#1D4A46;
+    --ink-soft:#2F5C57;
+    --coral:#C8685A;
+    --gold:#D2A02F;
+    --sage:#7E9B8C;
+    --blue:#7FA2BE;
+    --text:#4A4741;
+    --muted:#7A7369;
+    --line:#E0D2C2;
+
+    --serif:'Lora', Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    --sans:'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    --pad:22px;
+    --radius:18px;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%}
+  a{color:inherit}
+
+  .wrap{max-width:430px;margin:0 auto;padding:0 var(--pad);position:relative}
+
+  h1,h2,h3{font-family:var(--serif);color:var(--ink);margin:0;line-height:1.14;letter-spacing:-.01em}
+  h2{font-size:clamp(26px,7.4vw,31px);font-weight:700}
+  h3{font-size:19px;font-weight:600}
+  p{margin:0}
+
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:11.5px;
+    font-weight:900;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--sage);
+    margin-bottom:14px;
+  }
+  .eyebrow.coral{color:var(--coral)}
+  .eyebrow.gold{color:var(--gold)}
+  .eyebrow.blue{color:var(--blue)}
+
+  .lede{font-size:16.5px;color:var(--muted);margin-top:14px}
+  .accent-line{font-family:var(--serif);font-weight:600;color:var(--coral);font-size:21px;line-height:1.3}
+
+  /* ---------- HÉROE: entra completo en pantalla ---------- */
+  .hero{
+    min-height:100svh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:max(18px,env(safe-area-inset-top)) var(--pad) 22px;
+    background:
+      radial-gradient(120% 70% at 50% -10%, #FBF4EC 0%, var(--bg) 62%);
+  }
+  .hero__eyebrow{margin-bottom:10px}
+  .hero h1{
+    font-size:clamp(38px,12vw,54px);
+    font-weight:700;
+    letter-spacing:.005em;
+  }
+  .hero h1 .tribu{display:block;color:var(--coral)}
+  .hero__emblem{
+    flex:0 1 auto;
+    min-height:0;
+    margin:clamp(14px,4.5vh,30px) 0;
+  }
+  .hero__emblem img{height:clamp(104px,20vh,168px);width:auto;aspect-ratio:101/140;margin:0 auto;display:block}
+  .hero__claim{
+    font-family:var(--serif);
+    font-size:clamp(16px,4.4vw,18px);
+    color:var(--ink-soft);
+    max-width:20ch;
+    margin:0 auto;
+  }
+
+  /* ---------- Botones de tienda ---------- */
+  .stores{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    width:100%;
+    max-width:330px;
+    margin:clamp(16px,3.6vh,26px) auto 0;
+  }
+  .store{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 18px;
+    border-radius:999px;
+    background:var(--ink);
+    color:#FBF4EA;
+    text-decoration:none;
+    box-shadow:0 8px 18px -12px rgba(29,74,70,.75);
+    transition:transform .18s ease, background-color .18s ease;
+    justify-content: center;
+    position: relative;
+  }
+  .store--coral{background:var(--coral);box-shadow:0 8px 18px -12px rgba(200,104,90,.85)}
+  .store:active{transform:scale(.982)}
+  .store:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  .store svg{flex:none;width:22px;height:22px;fill:currentColor;position: absolute;left: 15px;}
+  .store__txt{text-align:center;line-height:1.15;flex: 1;margin: 0;}
+  .store__small{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.82}
+  .store__big{display:block;font-size:16.5px;font-weight:700;letter-spacing:.01em}
+
+  .hero__meta{
+    margin-top:16px;
+    font-size:13.5px;
+    color:var(--muted);
+    letter-spacing:.02em;
+  }
+  .scroll-cue{
+    margin-top:clamp(10px,2.4vh,20px);
+    font-size:12px;
+    color:var(--sage);
+    letter-spacing:.08em;
+  }
+  .scroll-cue span{display:block;margin:6px auto 0;width:1px;height:18px;background:linear-gradient(var(--sage),transparent)}
+
+  /* ---------- Secciones ---------- */
+  section{padding:clamp(56px,11vh,80px) 0}
+  .band{background:var(--bg-deep)}
+  .band-cream{background:#FBF5EE}
+
+  /* Pregunta de apertura */
+  .question{text-align:center}
+  .question h2{font-size:clamp(28px,8.4vw,34px)}
+  .question .second{color:var(--coral);margin-top:20px}
+  .face{margin:38px auto 34px;width:min(190px,58vw)}
+
+  /* Turno */
+  .turn{display:grid;gap:14px;margin-top:26px}
+  .turn__step{
+    display:grid;
+    grid-template-columns:44px 1fr;
+    gap:16px;
+    align-items:center;
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:16px 18px;
+  }
+  .turn__n{
+    width:44px;height:44px;border-radius:50%;
+    display:grid;place-items:center;
+    font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);
+    background:#F1E7DA;
+  }
+  .turn__step:nth-child(1) .turn__n{background:#E7EFEA;color:var(--sage)}
+  .turn__step:nth-child(2) .turn__n{background:#F7E8E4;color:var(--coral)}
+  .turn__step:nth-child(3) .turn__n{background:#F7EEDA;color:#B0851F}
+  .turn__step p{font-size:15px;color:var(--muted);margin-top:2px}
+
+  /* Recorrido */
+  .board{margin:30px auto 0;max-width:330px}
+  .board-note{text-align:center;margin-top:22px;font-weight:700;color:var(--ink);font-size:15px}
+  .board-note em{display:block;font-style:normal;font-family:var(--serif);color:var(--coral);font-size:19px;font-weight:600;margin-top:4px}
+
+  /* Cuatro puertas */
+  .doors{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
+  .door{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    padding:14px 12px 16px;
+    text-align:center;
+  }
+  .door--gold{border-color:#E3C177}
+  .door--blue{border-color:#B7CBDC}
+  .door--coral{border-color:#E7B6AD}
+  .door--sage{border-color:#B2C7BC}
+  .door h3{font-family:var(--sans);font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+  .door--gold h3{color:var(--gold)}
+  .door--blue h3{color:var(--blue)}
+  .door--coral h3{color:var(--coral)}
+  .door--sage h3{color:var(--sage)}
+  .door svg{margin:12px auto 10px;height:58px;width:auto}
+  .door p{font-size:13.5px;line-height:1.45;color:var(--muted)}
+  .doors-foot{margin-top:18px;text-align:center;font-size:14px;color:var(--muted)}
+
+  /* Tesoro */
+  .gems{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:30px 0 26px}
+  .gems svg{height:74px;width:auto}
+  .gems svg:nth-child(2){height:104px}
+  .treasure p{font-size:16px}
+  .treasure .accent-line{margin-top:8px}
+  .coin{margin:30px auto 0;width:150px}
+
+  /* Dos espacios */
+  .space{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    display:grid;
+    grid-template-columns:34px 1fr;
+    gap:16px;
+    align-items:center;
+    margin-top:14px;
+  }
+  .dot{width:34px;height:34px;border-radius:50%}
+  .dot--coral{background:var(--coral)}
+  .dot--blue{background:var(--blue)}
+  .space h3{font-family:var(--sans);font-size:14px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+  .space--home h3{color:var(--coral)}
+  .space--class h3{color:var(--blue)}
+  .space p{font-size:14px;color:var(--muted);margin-top:3px}
+  .spaces-foot{margin-top:26px;text-align:center;font-size:15.5px;color:var(--text)}
+
+  /* Lema */
+  .motto{
+    background:var(--card);
+    border:1.5px solid #BFD1C8;
+    border-radius:20px;
+    padding:26px 22px;
+    text-align:center;
+    margin-top:26px;
+  }
+  .motto__label{font-size:12.5px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+  .motto__help{font-size:14.5px;color:var(--muted);margin-top:10px}
+  .motto__field{
+    margin-top:18px;
+    border:1.5px solid #BFD1C8;
+    border-radius:12px;
+    padding:14px 12px;
+    font-family:var(--serif);
+    font-size:16px;
+    color:var(--ink-soft);
+    background:#FEFCF8;
+  }
+  .motto__btn{
+    margin-top:16px;
+    background:var(--gold);
+    color:#4A3708;
+    border:0;
+    border-radius:999px;
+    padding:12px 26px;
+    font-family:var(--sans);
+    font-size:12.5px;
+    font-weight:900;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+
+  /* Cierre */
+  .closing{text-align:center;padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+  .closing svg.emblem{height:128px;width:auto;margin:0 auto 26px}
+  .closing h2{font-size:clamp(27px,7.8vw,32px)}
+  .closing .lede{max-width:28ch;margin-left:auto;margin-right:auto}
+  .closing .stores{margin-top:26px}
+  .sign{margin-top:26px;font-size:13px;color:var(--muted)}
+  .sign strong{display:block;font-family:var(--serif);font-weight:600;color:var(--ink);font-size:15px;margin-top:4px}
+
+  /* Barra fija de descarga */
+  .dock{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:20;
+    display:flex;
+    gap:8px;
+    padding:10px max(var(--pad),env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom));
+    background:rgba(246,237,227,.94);
+    backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    transform:translateY(110%);
+    transition:transform .34s cubic-bezier(.2,.7,.3,1);
+  }
+  .dock.is-visible{transform:none}
+  .dock a{
+    flex:1;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 8px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:14.5px;font-weight:700;
+    background:var(--ink);color:#FBF4EA;
+  }
+  .dock a.alt{background:var(--coral)}
+  .dock a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .dock svg{width:18px;height:18px;fill:currentColor}
+
+  @media (min-width:640px){
+    :root{--pad:28px}
+    .wrap{max-width:560px}
+    .hero .stores{flex-direction:row;max-width:420px}
+    .hero .stores .store{flex:1}
+    .doors{gap:16px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HÉROE ============ -->
+<header class="hero">
+  <p class="eyebrow hero__eyebrow">Un juego cooperativo</p>
+
+  <h1>Conexión<span class="tribu">en tribu</span></h1>
+
+  <div class="hero__emblem">
+    <img src="assets/logo1.png" width="101" height="140" alt="Carta con cuatro hojas de colores y un corazón dorado en el centro" fetchpriority="high" decoding="async">
+  </div>
+
+  <p class="hero__claim">Escuchar, compartir y cuidar, por turnos.</p>
+
+  <nav class="stores" aria-label="Descargar la aplicación">
+    <a class="store" href="#" data-store="ios">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
+      <span class="store__txt">
+        <span class="store__small">Descárgala gratis en</span>
+        <span class="store__big">App Store</span>
+      </span>
+    </a>
+    <a class="store store--coral" href="#" data-store="android">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
+      <span class="store__txt">
+        <span class="store__small">Disponible gratis en</span>
+        <span class="store__big">Google Play</span>
+      </span>
+    </a>
+  </nav>
+
+  <p class="hero__meta">Para el hogar y el aula · 2 a 6 jugadores · Desde 6 años</p>
+
+  <p class="scroll-cue">Así se juega</p>
+</header>
+
+<!-- ============ TURNO ============ -->
+<section class="band-cream">
+  <div class="wrap">
+    <p class="eyebrow gold">Cada turno abre una posibilidad</p>
+    <h2>Tira el dado, avanza, descubre.</h2>
+
+    <div class="turn">
+      <div class="turn__step">
+        <span class="turn__n" aria-hidden="true">1</span>
+        <div>
+          <h3>Tira el dado</h3>
+          <p>El peón avanza por el recorrido y se detiene en una casilla.</p>
+        </div>
+      </div>
+      <div class="turn__step">
+        <span class="turn__n" aria-hidden="true">2</span>
+        <div>
+          <h3>Toca la carta</h3>
+          <p>Una propuesta para agradecer, pedir, contar o reconocer lo que cuesta.</p>
+        </div>
+      </div>
+      <div class="turn__step">
+        <span class="turn__n" aria-hidden="true">3</span>
+        <div>
+          <h3>Empieza la conversación</h3>
+          <p>O un chiste, un baile o una pelea de churros. También eso une.</p>
+        </div>
+      </div>
+    </div>
+
+    <svg class="board" viewBox="0 0 300 330" role="img" aria-label="Recorrido circular de nueve casillas alrededor del dado">
+      <path d="M40 120 L105 68 L185 82 L238 140 L214 206 L150 232 L92 214 L58 168 Z"
+            fill="none" stroke="#DFD0BC" stroke-width="5" stroke-linejoin="round"/>
+      <g fill="#FDF9F3" stroke-width="3.5">
+        <circle cx="40" cy="120" r="18" stroke="#8AA893"/>
+        <circle cx="105" cy="68" r="18" stroke="#C8685A"/>
+        <circle cx="185" cy="82" r="18" stroke="#8FB1CC"/>
+        <circle cx="238" cy="140" r="18" stroke="#D9A32E"/>
+        <circle cx="214" cy="206" r="18" stroke="#8AA893"/>
+        <circle cx="150" cy="232" r="18" stroke="#C8685A"/>
+        <circle cx="92" cy="214" r="18" stroke="#8FB1CC"/>
+        <circle cx="58" cy="168" r="18" stroke="#D9A32E"/>
+        <circle cx="150" cy="290" r="18" stroke="#8AA893"/>
+      </g>
+      <g font-family="Lato, sans-serif" font-size="15" font-weight="700" fill="#4A4741" text-anchor="middle" dominant-baseline="central">
+        <text x="40" y="120">1</text><text x="105" y="68">2</text><text x="185" y="82">3</text>
+        <text x="238" y="140">4</text><text x="214" y="206">5</text><text x="150" y="232">6</text>
+        <text x="92" y="214">7</text><text x="58" y="168">8</text><text x="150" y="290">9</text>
+      </g>
+      <g transform="translate(138,130)">
+        <rect width="46" height="46" rx="12" fill="#7E9B8C"/>
+        <g fill="#FDF8F0">
+          <circle cx="14" cy="14" r="3.6"/><circle cx="32" cy="14" r="3.6"/>
+          <circle cx="23" cy="23" r="3.6"/>
+          <circle cx="14" cy="32" r="3.6"/><circle cx="32" cy="32" r="3.6"/>
+        </g>
+      </g>
+    </svg>
+
+    <p class="board-note">Sin ganadores individuales.<em>La meta es conectar.</em></p>
+  </div>
+</section>
+
+<!-- ============ CUATRO PUERTAS ============ -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow blue">Cuatro puertas para conectar</p>
+    <h2>Nombrar también nos acerca.</h2>
+
+    <div class="doors">
+      <article class="door door--gold">
+        <h3>Agradezco</h3>
+        <svg viewBox="0 0 90 70" aria-hidden="true">
+          <path d="M8 40c10-10 20-14 30-12l14 3" fill="none" stroke="#B07B4E" stroke-width="7" stroke-linecap="round"/>
+          <path d="M82 46c-10 8-22 11-32 8l-12-5" fill="none" stroke="#E0A883" stroke-width="7" stroke-linecap="round"/>
+          <path d="M45 24c2-5 11-4 11 3 0 6-7 10-11 13-4-3-11-7-11-13 0-7 9-8 11-3z" fill="#D9A32E"/>
+          <path d="M60 18l4-7M68 26l7-3M54 14l1-8" stroke="#D9A32E" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M18 52c-6-2-9-7-8-12 6-1 11 2 13 7z" fill="#8AA893"/>
+        </svg>
+        <p>Reconozco algo que recibo y digo qué despierta en mí.</p>
+      </article>
+
+      <article class="door door--blue">
+        <h3>Necesito</h3>
+        <svg viewBox="0 0 90 70" aria-hidden="true">
+          <path d="M20 38h50c0 14-11 22-25 22S20 52 20 38z" fill="#F0E7D8" stroke="#C9B79A" stroke-width="2"/>
+          <path d="M18 40c-6 2-10 8-8 14M72 40c6 2 10 8 8 14" stroke="#B07B4E" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M45 10c3 5 6 8 6 12a6 6 0 0 1-12 0c0-4 3-7 6-12z" fill="#8FB1CC"/>
+          <path d="M60 16c1-4 7-4 7 2 0 5-5 8-7 10-2-2-7-5-7-10 0-6 6-6 7-2z" fill="#C8685A"/>
+          <path d="M30 14c-6 1-9 6-8 11 6 1 10-2 11-7z" fill="#8AA893"/>
+        </svg>
+        <p>Expreso algo que necesito, sin exigirlo.</p>
+      </article>
+
+      <article class="door door--coral">
+        <h3>Cuento</h3>
+        <svg viewBox="0 0 90 70" aria-hidden="true">
+          <path d="M6 24c8-6 14-4 16 4 2 8-4 14-14 12-3-1-4-3-2-5z" fill="#E8A68F"/>
+          <path d="M24 34c12-12 26 8 38-4" fill="none" stroke="#D9A32E" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M70 16c9 0 14 8 13 18-1 11-8 18-14 16-4-1-3-6 0-8 4-3 5-8 3-11-2-4-8-3-9-8-1-4 3-7 7-7z" fill="#E8A68F"/>
+          <circle cx="72" cy="36" r="4" fill="none" stroke="#C88A6E" stroke-width="2.4"/>
+          <path d="M36 28l2-5M50 34l2 5M44 24l1-5" stroke="#D9A32E" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M28 40c-5 2-8 6-7 10 5 1 9-2 10-6z" fill="#8AA893"/>
+        </svg>
+        <p>Comparto una experiencia y las demás escuchan.</p>
+      </article>
+
+      <article class="door door--sage">
+        <h3>Me cuesta</h3>
+        <svg viewBox="0 0 90 70" aria-hidden="true">
+          <path d="M30 60c8-10 14-22 14-32" fill="none" stroke="#D0705A" stroke-width="7" stroke-linecap="round"/>
+          <path d="M44 28c3-4 7-2 6 2M50 30c3-3 6 0 4 4" stroke="#D0705A" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M82 12c-8 4-16 8-22 14" fill="none" stroke="#E0A44F" stroke-width="7" stroke-linecap="round"/>
+          <path d="M58 26c-4 2-7 1-6-3M64 22c-4 1-6-1-4-4" stroke="#E0A44F" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="46" cy="60" rx="26" ry="9" fill="#A9AEA8"/>
+          <ellipse cx="38" cy="53" rx="16" ry="7" fill="#C0C4BD"/>
+          <path d="M66 54c-4-6-1-12 5-12 1 6-1 10-5 12z" fill="#8AA893"/>
+          <path d="M32 26l-4-5M26 32l-6-2" stroke="#4A4741" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <p>Nombro algo difícil y el grupo responde con respeto.</p>
+      </article>
+    </div>
+
+    <p class="doors-foot">Se puede decir «paso» en cualquier momento. Compartir siempre es una invitación.</p>
+  </div>
+</section>
+
+<!-- ============ TESORO ============ -->
+<section class="treasure">
+  <div class="wrap" style="text-align:center">
+    <p class="eyebrow gold">El tesoro es compartido</p>
+    <h2>Cada aportación cuenta.</h2>
+
+    <div class="gems">
+      <svg viewBox="0 0 70 84" aria-hidden="true">
+        <path d="M35 2 68 30 35 82 2 30Z" fill="#C25647"/>
+        <path d="M35 2 68 30H2Z" fill="#D9705F"/>
+        <path d="M22 30 35 82 48 30Z" fill="#A8443A" opacity=".65"/>
+        <path d="M35 2 22 30h26Z" fill="#E68A78"/>
+      </svg>
+      <svg viewBox="0 0 76 104" aria-hidden="true">
+        <path d="M38 2C16 26 6 46 6 62a32 32 0 0 0 64 0c0-16-10-36-32-60z" fill="#5E8F62"/>
+        <path d="M38 2C30 30 26 52 26 66c0 14 5 26 12 34 7-8 12-20 12-34 0-14-4-36-12-64z" fill="#87B685"/>
+        <path d="M38 2c-8 28-12 50-12 64h24C50 52 46 30 38 2z" fill="#B4D3A6" opacity=".85"/>
+      </svg>
+      <svg viewBox="0 0 70 84" aria-hidden="true">
+        <rect x="8" y="10" width="54" height="64" rx="10" fill="#8C6BA8"/>
+        <rect x="18" y="20" width="34" height="44" rx="6" fill="#A98AC2"/>
+        <path d="M18 42h34M35 20v44" stroke="#C9B0DC" stroke-width="2.6" opacity=".8"/>
+      </svg>
+    </div>
+
+    <p>Las gemas no premian a una persona.</p>
+    <p class="accent-line">Construyen el tesoro de toda la tribu.</p>
+
+    <svg class="coin" viewBox="0 0 150 150" role="img" aria-label="Cuatro manos sosteniendo el doblón de conexión">
+      <circle cx="75" cy="75" r="26" fill="#D9A32E"/>
+      <circle cx="75" cy="75" r="20" fill="#E8BC55"/>
+      <path d="M75 66c3-6 13-5 13 4 0 7-9 12-13 16-4-4-13-9-13-16 0-9 10-10 13-4z" fill="#B8801C"/>
+      <g stroke-linecap="round" stroke-width="11" fill="none">
+        <path d="M30 30c10 8 18 14 24 18" stroke="#C8685A"/>
+        <path d="M120 30c-10 8-18 14-24 18" stroke="#8AA893"/>
+        <path d="M30 120c10-8 18-14 24-18" stroke="#D9A32E"/>
+        <path d="M120 120c-10-8-18-14-24-18" stroke="#8FB1CC"/>
+      </g>
+      <g stroke="#D9A32E" stroke-width="2.6" stroke-linecap="round">
+        <path d="M75 40v-8M110 75h8M75 110v8M40 75h-8"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ LEMA ============ -->
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">Antes de comenzar</p>
+    <h2>Creamos nuestro lema.</h2>
+    <p class="lede">Una frase que la tribu escribe el primer día y aparece al abrir cada partida.</p>
+
+    <div class="motto">
+      <p class="motto__label">El lema de nuestra tribu</p>
+      <p class="motto__help">Una frase que nos recuerde cómo queremos convivir.</p>
+      <p class="motto__field">Aquí cabemos todas las voces</p>
+      <button class="motto__btn" type="button" disabled>Guardar lema</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOS ESPACIOS ============ -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">La misma esencia</p>
+    <h2>Un juego. Dos espacios.</h2>
+
+    <div class="space space--home">
+      <span class="dot dot--coral" aria-hidden="true"></span>
+      <div>
+        <h3>En el hogar</h3>
+        <p>Presencia, confianza, vínculo.</p>
+      </div>
+    </div>
+    <div class="space space--class">
+      <span class="dot dot--blue" aria-hidden="true"></span>
+      <div>
+        <h3>En el aula</h3>
+        <p>Cohesión, escucha, convivencia.</p>
+      </div>
+    </div>
+
+    <p class="spaces-foot">Formato físico para compartir la mesa y versión digital para jugar en grupo.</p>
+  </div>
+</section>
+<!-- ============ PREGUNTA ============ -->
+<section class="band">
+  <div class="wrap question">
+    <p class="eyebrow coral">Una pregunta para empezar</p>
+    <h2>Una clase comparte espacio.</h2>
+    <h2 class="second">¿Pero se siente tribu?</h2>
+
+    <svg class="face" viewBox="0 0 160 110" role="img" aria-label="Rostro formado por cuatro círculos de colores">
+      <path d="M22 22a58 58 0 0 0 116 0" fill="none" stroke="#8FB1CC" stroke-width="4.5" stroke-linecap="round" transform="rotate(180 80 44)"/>
+      <circle cx="58" cy="34" r="12" fill="#D9A32E"/>
+      <circle cx="102" cy="34" r="12" fill="#8AA893"/>
+      <circle cx="30" cy="70" r="12" fill="#C8685A"/>
+      <circle cx="130" cy="70" r="12" fill="#8FB1CC"/>
+    </svg>
+
+    <p class="lede">Conexión en tribu abre, cada día, un rato corto para mirarse y hablar de verdad. Sin ganadores, sin exposición obligada.</p>
+  </div>
+</section>
+<!-- ============ CIERRE ============ -->
+<section class="closing band-cream">
+  <div class="wrap">
+    <svg class="emblem" viewBox="0 0 150 196" role="img" aria-label="Emblema de Conexión en tribu">
+      <rect x="2" y="2" width="146" height="192" rx="14" fill="#FDF8F0" stroke="#D2A02F" stroke-width="2.5"/>
+      <rect x="9" y="9" width="132" height="178" rx="9" fill="none" stroke="#EBD9B4" stroke-width="1.4"/>
+      <g transform="translate(75,98)">
+        <path d="M-6-8C-22-26-44-30-50-18c-6 12 8 28 26 24 10-2 16-8 18-14z" fill="#E08E7C"/>
+        <path d="M6-8C22-26 44-30 50-18c6 12-8 28-26 24-10-2-16-8-18-14z" fill="#8FB1CC"/>
+        <path d="M-6 8C-22 26-44 30-50 18c-6-12 8-28 26-24 10 2 16 8 18 14z" fill="#DFAE3F"/>
+        <path d="M6 8C22 26 44 30 50 18c6-12-8-28-26-24-10 2-16 8-18 14z" fill="#8AA893"/>
+        <path d="M0-7c3-5 11-4 11 3 0 6-7 10-11 13-4-3-11-7-11-13 0-7 8-8 11-3z" fill="#D9A32E"/>
+      </g>
+    </svg>
+
+    <h2>Empieza hoy vuestra primera partida.</h2>
+    <p class="lede">Descarga la app y juega esta tarde: bastan quince minutos alrededor de la mesa.</p>
+
+    <nav class="stores" aria-label="Descargar la aplicación">
+      <a class="store" href="#" data-store="ios">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
+        <span class="store__txt">
+          <span class="store__small">Descárgala en</span>
+          <span class="store__big">App Store</span>
+        </span>
+      </a>
+      <a class="store store--coral" href="#" data-store="android">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
+        <span class="store__txt">
+          <span class="store__small">Disponible en</span>
+          <span class="store__big">Google Play</span>
+        </span>
+      </a>
+    </nav>
+
+    <p class="sign">Escuchar · compartir · cuidar · conectar
+      <strong>Un juego de Nagore Alcázar</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============ BARRA FIJA ============ -->
+<div class="dock" id="dock" aria-label="Descargar la aplicación">
+  <a href="#" data-store="ios">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
+    App Store
+  </a>
+  <a href="#" class="alt" data-store="android">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
+    Google Play
+  </a>
+</div>
+
+<script>
+  const dock = document.getElementById('dock');
+  const hero = document.querySelector('.hero');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      dock.classList.toggle('is-visible', !entry.isIntersecting);
+    }, { threshold: 0.35 }).observe(hero);
+  }
+</script>
+</body>
+</html>
