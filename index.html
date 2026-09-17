@@ -333,6 +333,21 @@
   gtag('config', 'G-4LVT3E41YK');
 </script>
 <script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1760977045152716');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1760977045152716&ev=PageView&noscript=1"
+/></noscript>
+<script>
 (function(){
   var p = new URLSearchParams(location.search);
   ['utm_source','utm_campaign','utm_medium'].forEach(function(k){
@@ -340,8 +355,11 @@
   });
 })();
 function trackClick(name){
-  if(!window.gtag) return;
-  gtag('event', name, {
+  if(window.gtag) gtag('event', name, {
+    utm_campaign: sessionStorage.getItem('utm_campaign') || 'directo',
+    utm_source: sessionStorage.getItem('utm_source') || 'directo'
+  });
+  if(window.fbq) fbq('trackCustom', name, {
     utm_campaign: sessionStorage.getItem('utm_campaign') || 'directo',
     utm_source: sessionStorage.getItem('utm_source') || 'directo'
   });
@@ -362,14 +380,14 @@ function trackClick(name){
   <p class="hero__claim">Un juego para escuchar, compartir y cuidar, por turnos.</p>
 
   <nav class="stores" aria-label="Descargar la aplicación">
-    <a class="store" href="proximamente.html" data-store="ios" onclick="trackClick('downloadiOS')">
+    <a class="store" href="proximamente.html" data-store="ios" onclick="trackClick('downloadConexionTribu')">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
       <span class="store__txt">
         <span class="store__small">Gratis en</span>
         <span class="store__big">App Store</span>
       </span>
     </a>
-    <a class="store store--coral" href="proximamente.html" data-store="android" onclick="trackClick('downloadAndroid')">
+    <a class="store store--coral" href="proximamente.html" data-store="android" onclick="trackClick('downloadConexionTribu')">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
       <span class="store__txt">
         <span class="store__small">Gratis en</span>
@@ -541,14 +559,14 @@ function trackClick(name){
     <p class="lede">Descarga la app y juega esta tarde: bastan quince minutos alrededor de la mesa.</p>
 
     <nav class="stores" aria-label="Descargar la aplicación">
-      <a class="store" href="proximamente.html" data-store="ios" onclick="trackClick('downloadiOS')">
+      <a class="store" href="proximamente.html" data-store="ios" onclick="trackClick('downloadConexionTribu')">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
         <span class="store__txt">
           <span class="store__small">Descárgala en</span>
           <span class="store__big">App Store</span>
         </span>
       </a>
-      <a class="store store--coral" href="proximamente.html" data-store="android" onclick="trackClick('downloadAndroid')">
+      <a class="store store--coral" href="proximamente.html" data-store="android" onclick="trackClick('downloadConexionTribu')">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
         <span class="store__txt">
           <span class="store__small">Disponible en</span>
@@ -565,11 +583,11 @@ function trackClick(name){
 
 <!-- ============ BARRA FIJA ============ -->
 <div class="dock" id="dock" aria-label="Descargar la aplicación">
-  <a href="proximamente.html" data-store="ios" onclick="trackClick('downloadiOS')">
+  <a href="proximamente.html" data-store="ios" onclick="trackClick('downloadConexionTribu')">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.2l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4L11 13.2V4a1 1 0 0 1 1-1Zm-7 15h14v2H5v-2Z"/></svg>
     App Store
   </a>
-  <a href="proximamente.html" class="alt" data-store="android" onclick="trackClick('downloadAndroid')">
+  <a href="proximamente.html" class="alt" data-store="android" onclick="trackClick('downloadConexionTribu')">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.6 18.6 12 5 21.4V2.6Zm2 3.7v11.4L15.2 12 7 6.3Z"/></svg>
     Google Play
   </a>
